@@ -1,4 +1,4 @@
-public with sharing class DivvyShareSObjectSelector {
+public with sharing class DivvyShareSObjectSelector implements IDivvyShareSObjectSelector {
   protected DivvyShareSObject shareSObject;
 
   public DivvyShareSObjectSelector(DivvyShareSObject shareSObject) {
