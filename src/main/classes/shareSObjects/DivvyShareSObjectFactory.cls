@@ -1,5 +1,5 @@
 public class DivvyShareSObjectFactory {
-  protected Map<Schema.SObjectType, Divvy_ShareSObject> shareSObjects = new Map<Schema.SObjectType, Divvy_ShareSObject>();
+  protected Map<Schema.SObjectType, DivvyShareSObject> shareSObjects = new Map<Schema.SObjectType, DivvyShareSObject>();
 
   public SObject newInstance(Id recordId, Id userOrGroupId) {
     return newInstance(recordId, userOrGroupId, DivvyAccessLevel.NONE);
@@ -10,7 +10,7 @@ public class DivvyShareSObjectFactory {
     Id userOrGroupId,
     DivvyAccessLevel accessLevel
   ) {
-    Divvy_ShareSObject divvyShareSObject = getDivvyShareSObjectFromId(recordId);
+    DivvyShareSObject divvyShareSObject = getDivvyShareSObjectFromId(recordId);
 
     SObject shareSObject = divvyShareSObject.sObjectType.newSObject();
 
@@ -24,11 +24,11 @@ public class DivvyShareSObjectFactory {
     return shareSObject;
   }
 
-  private Divvy_ShareSObject getDivvyShareSObjectFromId(Id recordId) {
+  private DivvyShareSObject getDivvyShareSObjectFromId(Id recordId) {
     Schema.SObjectType sObjectType = recordId.getSobjectType();
 
     if (!shareSObjects.keySet().contains(sObjectType)) {
-      shareSObjects.put(sObjectType, new Divvy_ShareSObject(sObjectType));
+      shareSObjects.put(sObjectType, new DivvyShareSObject(sObjectType));
     }
 
     return shareSObjects.get(sObjectType);

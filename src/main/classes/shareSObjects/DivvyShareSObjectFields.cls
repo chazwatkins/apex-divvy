@@ -7,7 +7,7 @@ public class DivvyShareSObjectFields {
   private String customSObjectAccessLevelFieldName = 'AccessLevel';
 
   public DivvyShareSObjectFields(
-    Divvy_ParentSObject parentSObject,
+    DivvyParentSObject parentSObject,
     Schema.SObjectType shareSObjectType
   ) {
     this.fieldSet = shareSObjectType.getDescribe().fields.getMap().keySet();
@@ -18,7 +18,7 @@ public class DivvyShareSObjectFields {
     );
   }
 
-  private String getParentIdFieldName(Divvy_ParentSObject parentSObject) {
+  private String getParentIdFieldName(DivvyParentSObject parentSObject) {
     if (hasCustomSObjectShareSObjectFields()) {
       return customSObjectParentIdFieldName;
     }
@@ -27,7 +27,7 @@ public class DivvyShareSObjectFields {
   }
 
   private String getShareSObjectAccessLevelFieldName(
-    Divvy_ParentSObject parentSObject
+    DivvyParentSObject parentSObject
   ) {
     if (hasCustomSObjectShareSObjectFields()) {
       return customSObjectAccessLevelFieldName;
