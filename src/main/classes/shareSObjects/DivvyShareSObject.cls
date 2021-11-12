@@ -1,16 +1,16 @@
 public class DivvyShareSObject {
   public Schema.SObjectType sObjectType;
   public String name;
-  public DivvyParentSObject parentSObject;
+  public Divvy_ParentSObject parentSObject;
   public DivvyShareSObjectFields fields;
 
   public DivvyShareSObject(Schema.SObjectType parentSObjectType) {
-    this.parentSObject = new DivvyParentSObject(parentSObjectType);
+    this.parentSObject = new Divvy_ParentSObject(parentSObjectType);
     this.name = getShareSObjectName();
     this.sObjectType = getShareSObjectType();
     this.fields = new DivvyShareSObjectFields(
-      this.parentSObject,
-      this.sObjectType
+            this.parentSObject,
+            this.sObjectType
     );
   }
 
