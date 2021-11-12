@@ -33,11 +33,10 @@ public class DivvyShareSObject {
   }
 
   private Schema.SObjectType getShareSObjectType() {
-    Schema.SObjectType recordShareSObjectType = ((SObject) Type.forName(
-          this.name
-        )
-        .newInstance())
-      .getSObjectType();
+    Object objectFromType = Type.forName(this.name).newInstance();
+    SObject shareSObject = (SObject) objectFromType;
+
+    Schema.SObjectType recordShareSObjectType = shareSObject.getSObjectType();
 
     return recordShareSObjectType;
   }
