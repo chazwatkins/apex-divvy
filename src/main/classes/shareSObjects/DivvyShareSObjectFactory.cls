@@ -1,10 +1,6 @@
 public class DivvyShareSObjectFactory {
   protected Map<Schema.SObjectType, DivvyShareSObject> shareSObjects = new Map<Schema.SObjectType, DivvyShareSObject>();
 
-  public SObject newInstance(Id recordId, Id userOrGroupId) {
-    return newInstance(recordId, userOrGroupId, DivvyAccessLevel.NONE);
-  }
-
   public SObject newInstance(
     Id recordId,
     Id userOrGroupId,
@@ -14,7 +10,7 @@ public class DivvyShareSObjectFactory {
 
     SObject shareSObject = divvyShareSObject.sObjectType.newSObject();
 
-    shareSObject.put(divvyShareSObject.fields.parentIdFieldName, userOrGroupId);
+    shareSObject.put(divvyShareSObject.fields.parentIdFieldName, recordId);
     shareSObject.put(
       divvyShareSObject.fields.accessLevelFieldName,
       accessLevelToString(accessLevel)
