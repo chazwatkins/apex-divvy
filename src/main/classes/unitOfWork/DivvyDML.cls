@@ -1,14 +1,14 @@
 public virtual class DivvyDML implements fflib_SObjectUnitOfWork.IDML {
   public virtual void dmlInsert(List<SObject> objList) {
-    Database.insert(objList, true);
+    Database.insert(objList, false);
   }
 
   public virtual void dmlUpdate(List<SObject> objList) {
-    Database.update(objList, true);
+    Database.update(objList, false);
   }
 
   public virtual void dmlDelete(List<SObject> objList) {
-    Database.delete(objList, true);
+    Database.delete(objList, false);
   }
 
   public virtual void eventPublish(List<SObject> objList) {
