@@ -15,42 +15,6 @@ public class DivvyUnitOfWork implements IDivvyUnitOfWork {
   };
 
   public void register(
-    Id recordId,
-    Id userOrGroupId,
-    DivvyAccessLevel accessLevel
-  ) {
-    SObject shareSObject = shareSObjectFactory.newInstance(
-      recordId,
-      userOrGroupId,
-      accessLevel
-    );
-
-    registrar.get(accessLevel).register(shareSObject);
-
-    this.sObjectTypes.add(shareSObject.getSObjectType());
-  }
-
-  public void register(
-    Id recordId,
-    Set<Id> userOrGroupIdSet,
-    DivvyAccessLevel accessLevel
-  ) {
-    for (Id userOrGroupId : userOrGroupIdSet) {
-      register(recordId, userOrGroupId, accessLevel);
-    }
-  }
-
-  public void register(
-    Set<Id> recordIdSet,
-    Id userOrGroupId,
-    DivvyAccessLevel accessLevel
-  ) {
-    for (Id recordId : recordIdSet) {
-      register(recordId, userOrGroupId, accessLevel);
-    }
-  }
-
-  public void register(
     Set<Id> recordIdSet,
     Set<Id> userOrGroupIdSet,
     DivvyAccessLevel accessLevel
@@ -58,6 +22,42 @@ public class DivvyUnitOfWork implements IDivvyUnitOfWork {
     for (Id recordId : recordIdSet) {
       register(recordId, userOrGroupIdSet, accessLevel);
     }
+  }
+
+  public void register(
+          Set<Id> recordIdSet,
+          Id userOrGroupId,
+          DivvyAccessLevel accessLevel
+  ) {
+    for (Id recordId : recordIdSet) {
+      register(recordId, userOrGroupId, accessLevel);
+    }
+  }
+
+  public void register(
+          Id recordId,
+          Set<Id> userOrGroupIdSet,
+          DivvyAccessLevel accessLevel
+  ) {
+    for (Id userOrGroupId : userOrGroupIdSet) {
+      register(recordId, userOrGroupId, accessLevel);
+    }
+  }
+
+  public void register(
+          Id recordId,
+          Id userOrGroupId,
+          DivvyAccessLevel accessLevel
+  ) {
+    SObject shareSObject = shareSObjectFactory.newInstance(
+            recordId,
+            userOrGroupId,
+            accessLevel
+    );
+
+    registrar.get(accessLevel).register(shareSObject);
+
+    this.sObjectTypes.add(shareSObject.getSObjectType());
   }
 
   public void commitShares() {
