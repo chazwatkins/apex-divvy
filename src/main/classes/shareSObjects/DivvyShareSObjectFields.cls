@@ -1,8 +1,10 @@
 public class DivvyShareSObjectFields {
   public String parentIdFieldName;
   public String accessLevelFieldName;
+  public String userOrGroupFieldName = 'UserOrGroupId';
 
   private Set<String> fieldSet;
+
   private String customSObjectParentIdFieldName = 'ParentId';
   private String customSObjectAccessLevelFieldName = 'AccessLevel';
 

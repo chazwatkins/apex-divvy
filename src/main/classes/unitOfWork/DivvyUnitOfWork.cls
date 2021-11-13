@@ -1,14 +1,17 @@
 public class DivvyUnitOfWork implements IDivvyUnitOfWork {
-  protected fflib_ISObjectUnitOfWork dmlUnitOfWork;
+  public fflib_ISObjectUnitOfWork dmlUnitOfWork;
 
-  protected DivvyShareSObjectFactory shareSObjectFactory = new DivvyShareSObjectFactory();
-
-  protected Set<Schema.SObjectType> sObjectTypes = new Set<Schema.SObjectType>();
+  protected Set<Schema.SObjectType> dmlSObjectTypes = new Set<Schema.SObjectType>();
 
   protected IDivvyRegistrar grantRegistrar = new DivvyRegistrar_Grant();
   protected IDivvyRegistrar revokeRegistrar = new DivvyRegistrar_Revoke();
 
-  protected Map<DivvyAccessLevel, IDivvyRegistrar> registrar = new Map<DivvyAccessLevel, IDivvyRegistrar>{
+  private List<IDivvyRegistrar> availableRegistrars = new List<IDivvyRegistrar>{
+      grantRegistrar,
+      revokeRegistrar
+  };
+
+  protected Map<DivvyAccessLevel, IDivvyRegistrar> registrars = new Map<DivvyAccessLevel, IDivvyRegistrar>{
     DivvyAccessLevel.READ => grantRegistrar,
     DivvyAccessLevel.EDIT => grantRegistrar,
     DivvyAccessLevel.NONE => revokeRegistrar
@@ -49,26 +52,35 @@ public class DivvyUnitOfWork implements IDivvyUnitOfWork {
           Id userOrGroupId,
           DivvyAccessLevel accessLevel
   ) {
-    SObject shareSObject = shareSObjectFactory.newInstance(
+    DivvyShareSObject shareSObject =
+          DivvyShareSObjectFactory.newInstance(
             recordId,
             userOrGroupId,
             accessLevel
-    );
+          );
 
-    registrar.get(accessLevel).register(shareSObject);
+    IDivvyRegistrar registrar = registrars.get(accessLevel);
 
-    this.sObjectTypes.add(shareSObject.getSObjectType());
+    registrar.register(shareSObject);
+
+    this.dmlSObjectTypes.add(shareSObject.sObjectType);
   }
 
   public void commitShares() {
     createDMLUnitOfWork();
-    //    doDMLRegistrations();
-    //    this.dmlUnitOfWork.commitWork();
+    doDMLRegistrations();
+    this.dmlUnitOfWork.commitWork();
+  }
+
+  private void doDMLRegistrations() {
+    for(IDivvyRegistrar registrar : availableRegistrars) {
+      registrar.registerDML(this.dmlUnitOfWork);
+    }
   }
 
   private void createDMLUnitOfWork() {
     this.dmlUnitOfWork = new fflib_SObjectUnitOfWork(
-      new List<Schema.SObjectType>(sObjectTypes),
+      new List<Schema.SObjectType>(this.dmlSObjectTypes),
       new DivvyDML()
     );
   }

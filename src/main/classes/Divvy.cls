@@ -45,6 +45,6 @@ public with sharing class Divvy implements IDivvy {
     }
   }
 
-  public class DivvyException extends Exception {
-  }
+  // TODO: Making better exceptions with exception chaining
+  public class DivvyException extends Exception { }
 }

@@ -1,36 +1,16 @@
 public class DivvyShareSObjectFactory {
-  protected Map<Schema.SObjectType, DivvyShareSObject> shareSObjects = new Map<Schema.SObjectType, DivvyShareSObject>();
 
-  public SObject newInstance(
+  public static DivvyShareSObject newInstance(
     Id recordId,
     Id userOrGroupId,
     DivvyAccessLevel accessLevel
   ) {
-    DivvyShareSObject divvyShareSObject = getDivvyShareSObjectFromId(recordId);
 
-    SObject shareSObject = divvyShareSObject.sObjectType.newSObject();
+    Schema.SObjectType sObjType = recordId.getSobjectType();
+    DivvyShareSObject shareSObject = new DivvyShareSObject(sObjType);
 
-    shareSObject.put(divvyShareSObject.fields.parentIdFieldName, recordId);
-    shareSObject.put(
-      divvyShareSObject.fields.accessLevelFieldName,
-      accessLevelToString(accessLevel)
-    );
-    shareSObject.put('UserOrGroupId', userOrGroupId);
+    shareSObject.buildRecord(recordId, userOrGroupId, accessLevel);
 
     return shareSObject;
-  }
-
-  private DivvyShareSObject getDivvyShareSObjectFromId(Id recordId) {
-    Schema.SObjectType sObjectType = recordId.getSobjectType();
-
-    if (!shareSObjects.keySet().contains(sObjectType)) {
-      shareSObjects.put(sObjectType, new DivvyShareSObject(sObjectType));
-    }
-
-    return shareSObjects.get(sObjectType);
-  }
-
-  private String accessLevelToString(DivvyAccessLevel accessLevel) {
-    return accessLevel.name().toLowerCase().capitalize();
   }
 }

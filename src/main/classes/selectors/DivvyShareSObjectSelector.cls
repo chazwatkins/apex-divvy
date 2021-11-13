@@ -1,27 +1,33 @@
 public with sharing class DivvyShareSObjectSelector implements IDivvyShareSObjectSelector {
-  protected DivvyShareSObject shareSObject;
-
-  public DivvyShareSObjectSelector(DivvyShareSObject shareSObject) {
-    this.shareSObject = shareSObject;
-  }
 
   public List<SObject> selectByParentIdAndUserOrGroupId(
-    Set<Id> parentIdSet,
-    Set<Id> userOrGroupIdSet
+      List<DivvyShareSObject> shareSObjectList
   ) {
+
+    DivvyQueryParams queryParams = buildQueryParams(shareSObjectList);
+
+    Set<Id> parentIdSet = queryParams.parentIdSet;
+    Set<Id> userOrGroupIdSet = queryParams.userOrGroupIdSet;
+
     String query = String.format(
       'SELECT Id ' +
       'FROM {0} ' +
       'WHERE {1} IN :parentIdSet ' +
       'AND UserOrGroupId IN :userOrGroupIdSet',
       new List<Object>{
-        this.shareSObject.name,
-        this.shareSObject.fields.parentIdFieldName
+        queryParams.shareSObjectName,
+        queryParams.parentIdFieldName
       }
     );
 
     String escapedQuery = String.escapeSingleQuotes(query);
 
     return Database.query(escapedQuery);
+  }
+
+  private DivvyQueryParams buildQueryParams(
+      List<DivvyShareSObject> shareSObjectList
+  ) {
+    return new DivvyQueryParams(shareSObjectList);
   }
 }
