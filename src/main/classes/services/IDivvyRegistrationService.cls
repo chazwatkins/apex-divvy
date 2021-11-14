@@ -1,5 +1,9 @@
-public interface IDivvyUnitOfWork {
-  void register(Id recordId, Id userOrGroupId, DivvyAccessLevel accessLevel);
+public interface IDivvyRegistrationService {
+  void register(
+      Id recordId,
+      Id userOrGroupId,
+      DivvyAccessLevel accessLevel
+  );
 
   void register(
     Id recordId,
@@ -18,6 +22,8 @@ public interface IDivvyUnitOfWork {
     Set<Id> userOrGroupIdSet,
     DivvyAccessLevel accessLevel
   );
+
+  void register(DivvyShareSObject shareSObject);
 
   void commitShares();
 }

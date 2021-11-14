@@ -1,6 +1,7 @@
 public class DivvyShareSObject {
   public Schema.SObjectType sObjectType {get; private set;}
   public String name {get; private set;}
+  public DivvyAccessLevel accessLevel {get; private set;}
   public DivvyParentSObject parentSObject {get; private set;}
   public DivvyShareSObjectFields fields {get; private set;}
   public SObject record;
@@ -19,6 +20,7 @@ public class DivvyShareSObject {
   }
 
   public void buildRecord(Id recordId, Id userOrGroupId, DivvyAccessLevel accessLevel) {
+    this.accessLevel = accessLevel;
     this.record = this.sObjectType.newSObject();
     this.record.put(this.fields.parentIdFieldName, recordId);
     this.record.put(this.fields.userOrGroupFieldName, userOrGroupId);
