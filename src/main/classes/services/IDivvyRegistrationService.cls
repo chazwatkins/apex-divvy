@@ -23,7 +23,5 @@ public interface IDivvyRegistrationService {
     DivvyAccessLevel accessLevel
   );
 
-  void register(DivvyShareSObject shareSObject);
-
   void commitShares();
 }

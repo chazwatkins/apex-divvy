@@ -1,10 +1,10 @@
-public class DivvyRegistrationService {
-  private static Map<Type, IDivvyRegistrar> registrarInstances =
+public class DivvyRegistrationService implements IDivvyRegistrationService {
+  private Map<Type, IDivvyRegistrar> registrarInstances =
       new Map<Type, IDivvyRegistrar>();
 
-  private static Set<Schema.SObjectType> dmlSObjectTypes = new Set<Schema.SObjectType>();
+  private Set<Schema.SObjectType> dmlSObjectTypes = new Set<Schema.SObjectType>();
 
-  public static void register(
+  public void register(
       Set<Id> recordIdSet,
       Set<Id> userOrGroupIdSet,
       DivvyAccessLevel accessLevel
@@ -14,7 +14,7 @@ public class DivvyRegistrationService {
     }
   }
 
-  public static void register(
+  public void register(
       Set<Id> recordIdSet,
       Id userOrGroupId,
       DivvyAccessLevel accessLevel
@@ -24,7 +24,7 @@ public class DivvyRegistrationService {
     }
   }
 
-  public static void register(
+  public void register(
       Id recordId,
       Set<Id> userOrGroupIdSet,
       DivvyAccessLevel accessLevel
@@ -34,7 +34,7 @@ public class DivvyRegistrationService {
     }
   }
 
-  public static void register(
+  public void register(
       Id recordId,
       Id userOrGroupId,
       DivvyAccessLevel accessLevel
@@ -49,7 +49,8 @@ public class DivvyRegistrationService {
     register(shareSObject);
   }
 
-  public static void commitShares() {
+  // TODO: Add Error Handling for Shares that weren't successful
+  public void commitShares() {
     IDivvyDMLUnitOfWork unitOfWork = new DivvyDMLUnitOfWork(
         new List<Schema.SObjectType>(dmlSObjectTypes)
     );
@@ -61,11 +62,12 @@ public class DivvyRegistrationService {
     unitOfWork.commitWork();
   }
 
-  private static void register(DivvyShareSObject shareSObject) {
+  private void register(DivvyShareSObject shareSObject) {
     registrar(shareSObject.accessLevel).register(shareSObject);
     dmlSObjectTypes.add(shareSObject.sObjectType);
   }
-  private static IDivvyRegistrar registrar(DivvyAccessLevel accessLevel){
+
+  private IDivvyRegistrar registrar(DivvyAccessLevel accessLevel){
     Type registrarType = DivvyConfig.Registrars.get(accessLevel);
 
     if(!registrarInstances.keySet().contains(registrarType)) {
