@@ -13,13 +13,13 @@ public class DivvyQueryParams {
     setParams(shareSObjectList);
   }
 
-  public void setParams(List<DivvyShareSObject> shareSObjectList) {
+  private void setParams(List<DivvyShareSObject> shareSObjectList) {
     for(DivvyShareSObject shareSObject : shareSObjectList) {
       setParams(shareSObject);
     }
   }
 
-  public void setParams(DivvyShareSObject shareSObject) {
+  private void setParams(DivvyShareSObject shareSObject) {
     Id parentId =
         (Id)shareSObject.record.get(
             shareSObject.fields.parentIdFieldName

@@ -27,6 +27,7 @@ public class DivvyShareSObject {
     this.record.put(this.fields.accessLevelFieldName, accessLevelToString(accessLevel));
   }
 
+  @TestVisible
   private String getShareSObjectName() {
     String recordShareSObjectNameSuffix = 'Share';
     String recordShareSObjectName;
@@ -45,6 +46,7 @@ public class DivvyShareSObject {
     return recordShareSObjectName;
   }
 
+  @TestVisible
   private Schema.SObjectType getShareSObjectType() {
     Object objectFromType = Type.forName(this.name).newInstance();
     SObject shareSObject = (SObject) objectFromType;
@@ -54,6 +56,7 @@ public class DivvyShareSObject {
     return recordShareSObjectType;
   }
 
+  @TestVisible
   private String accessLevelToString(DivvyAccessLevel accessLevel) {
     return accessLevel.name().toLowerCase().capitalize();
   }
