@@ -1,4 +1,12 @@
 public class DivvyRegistrationService implements IDivvyRegistrationService {
+
+  public static Map<DivvyAccessLevel, Type> Registrars =
+      new Map<DivvyAccessLevel, Type>{
+          DivvyAccessLevel.READ => DivvyRegistrar_Grant.class,
+          DivvyAccessLevel.EDIT => DivvyRegistrar_Grant.class,
+          DivvyAccessLevel.NONE => DivvyRegistrar_Revoke.class
+      };
+
   private Map<Type, IDivvyRegistrar> registrarInstances =
       new Map<Type, IDivvyRegistrar>();
 
@@ -68,7 +76,7 @@ public class DivvyRegistrationService implements IDivvyRegistrationService {
   }
 
   private IDivvyRegistrar registrar(DivvyAccessLevel accessLevel){
-    Type registrarType = DivvyConfig.Registrars.get(accessLevel);
+    Type registrarType = Registrars.get(accessLevel);
 
     if(!registrarInstances.keySet().contains(registrarType)) {
       IDivvyRegistrar newRegistrar = (IDivvyRegistrar)registrarType.newInstance();
