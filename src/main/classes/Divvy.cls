@@ -69,6 +69,28 @@ public with sharing class Divvy implements IDivvy {
     );
   }
 
+  public void registerRevoke(Id recordId, Set<Id> userOrGroupIdSet) {
+    service.register(
+        recordId, userOrGroupIdSet,
+        DivvyAccessLevel.NONE
+    );
+  }
+
+  public void registerRevoke(Set<Id> recordIdSet, Id userOrGroupId) {
+    service.register(
+        recordIdSet, userOrGroupId,
+        DivvyAccessLevel.NONE
+    );
+  }
+
+  public void registerRevoke(Set<Id> recordIdSet, Set<Id> userOrGroupIdSet) {
+    service.register(
+        recordIdSet,
+        userOrGroupIdSet,
+        DivvyAccessLevel.NONE
+    );
+  }
+
   public void commitShares() {
     service.commitShares();
   }
