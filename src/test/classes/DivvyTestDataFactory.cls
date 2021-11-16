@@ -1,3 +1,4 @@
+@IsTest
 public class DivvyTestDataFactory {
   public static DivvyShareSObject createShareSObjectWithRecord() {
     DivvyShareSObject shareSObject =
