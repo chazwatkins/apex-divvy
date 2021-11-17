@@ -1,17 +1,16 @@
-@IsTest
 public class DivvyTestDataFactory {
   public static DivvyShareSObject createShareSObjectWithRecord() {
     DivvyShareSObject shareSObject =
-        new DivvyShareSObject(Account.SObjectType);
+        new DivvyShareSObject(Opportunity.SObjectType);
 
-    Account newAccount = new Account(Name='Test Account');
+    Opportunity newOpp = new Opportunity(Name='Test Account', StageName='Closed Won', CloseDate=System.today());
     Group newGroup = new Group(Name='Test Group');
 
-    insert newAccount;
+    insert newOpp;
     insert newGroup;
 
     shareSObject.buildRecord(
-        newAccount.Id,
+        newOpp.Id,
         newGroup.Id,
         DivvyAccessLevel.EDIT
     );
@@ -27,11 +26,10 @@ public class DivvyTestDataFactory {
       DivvyShareSObject shareSObject =
           new DivvyShareSObject(Account.SObjectType);
 
-      shareSObject.record = new AccountShare(
-          Id=fflib_IDGenerator.generate(AccountShare.SObjectType),
-          AccountId=fflib_IDGenerator.generate(Account.SObjectType),
-          AccountAccessLevel='Edit',
-          UserOrGroupId=fflib_IDGenerator.generate(User.SObjectType)
+      shareSObject.buildRecord(
+          fflib_IDGenerator.generate(Account.SObjectType),
+          fflib_IDGenerator.generate(User.SObjectType),
+          DivvyAccessLevel.EDIT
       );
 
       shareSObjectList.add(shareSObject);
