@@ -10,7 +10,7 @@ private class DivvyShareSObjectSelectorTest {
     insert shareSObject.record;
 
     List<SObject> shareRecords =
-        DivvyShareSObjectSelector.selectByParentIdAndUserOrGroupId(
+        DivvyApplication.Selector.newInstance().selectByParentIdAndUserOrGroupId(
             new List<DivvyShareSObject>{shareSObject}
         );
 
