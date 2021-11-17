@@ -4,7 +4,7 @@ public class DivvyRegistrar_Revoke extends DivvyRegistrar {
     for(Schema.SObjectType sObjType : registry.sObjectTypes) {
 
       IDivvyShareSObjectSelector selector =
-          new DivvyShareSObjectSelector();
+          DivvyApplication.Selector.newInstance();
 
       List<DivvyShareSObject> registrations =
           registry.getRegistrations(sObjType);
