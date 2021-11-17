@@ -1,15 +1,5 @@
 public class DivvyRegistrationService implements IDivvyRegistrationService {
 
-  public static Map<DivvyAccessLevel, Type> Registrars =
-      new Map<DivvyAccessLevel, Type>{
-          DivvyAccessLevel.READ => DivvyRegistrar_Grant.class,
-          DivvyAccessLevel.EDIT => DivvyRegistrar_Grant.class,
-          DivvyAccessLevel.NONE => DivvyRegistrar_Revoke.class
-      };
-
-  private Map<Type, IDivvyRegistrar> registrarInstances =
-      new Map<Type, IDivvyRegistrar>();
-
   private Set<Schema.SObjectType> dmlSObjectTypes = new Set<Schema.SObjectType>();
 
   public void register(
@@ -59,11 +49,12 @@ public class DivvyRegistrationService implements IDivvyRegistrationService {
 
   // TODO: Add Error Handling for Shares that weren't successful
   public void commitShares() {
-    IDivvyDMLUnitOfWork unitOfWork = new DivvyDMLUnitOfWork(
-        new List<Schema.SObjectType>(dmlSObjectTypes)
-    );
+    fflib_ISObjectUnitOfWork unitOfWork =
+        DivvyApplication.UnitOfWork.newInstance(
+            new List<Schema.SObjectType>(dmlSObjectTypes)
+        );
 
-    for(IDivvyRegistrar registrar : registrarInstances.values()) {
+    for(IDivvyRegistrar registrar : DivvyApplication.Registrar.getInstances()) {
       registrar.registerDML(unitOfWork);
     }
 
@@ -76,13 +67,6 @@ public class DivvyRegistrationService implements IDivvyRegistrationService {
   }
 
   private IDivvyRegistrar registrar(DivvyAccessLevel accessLevel){
-    Type registrarType = Registrars.get(accessLevel);
-
-    if(!registrarInstances.keySet().contains(registrarType)) {
-      IDivvyRegistrar newRegistrar = (IDivvyRegistrar)registrarType.newInstance();
-      registrarInstances.put(registrarType, newRegistrar);
-    }
-
-    return registrarInstances.get(registrarType);
+    return DivvyApplication.Registrar.newInstance(accessLevel);
   }
 }
