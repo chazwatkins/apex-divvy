@@ -49,7 +49,8 @@ public with sharing class Divvy implements IDivvy {
 
   public void registerEdit(Set<Id> recordIdSet, Id userOrGroupId) {
     service.register(
-        recordIdSet, userOrGroupId,
+        recordIdSet,
+        userOrGroupId,
         DivvyAccessLevel.EDIT
     );
   }
