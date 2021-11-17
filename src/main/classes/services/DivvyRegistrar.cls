@@ -8,11 +8,5 @@ public abstract class DivvyRegistrar implements IDivvyRegistrar {
         registry.register(sObjType, sObjectToRegister);
     }
 
-    public virtual void registerDML(fflib_ISObjectUnitOfWork unitOfWork) {
-        for(Schema.SObjectType sObjType : this.registry.sObjectTypes) {
-            for(DivvyShareSObject dso : this.registry.getRegistrations(sObjType)) {
-                unitOfWork.registerUpsert(dso.record);
-            }
-        }
-    }
+    public abstract void registerDML(fflib_ISObjectUnitOfWork unitOfWork);
 }
