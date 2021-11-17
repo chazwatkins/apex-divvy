@@ -1,6 +1,6 @@
 public with sharing class DivvyShareSObjectSelector implements IDivvyShareSObjectSelector {
 
-  public static List<SObject> selectByParentIdAndUserOrGroupId(
+  public List<SObject> selectByParentIdAndUserOrGroupId(
       List<DivvyShareSObject> shareSObjectList
   ) {
 
@@ -25,7 +25,7 @@ public with sharing class DivvyShareSObjectSelector implements IDivvyShareSObjec
     return Database.query(escapedQuery);
   }
 
-  private static DivvyQueryParams buildQueryParams(
+  private DivvyQueryParams buildQueryParams(
       List<DivvyShareSObject> shareSObjectList
   ) {
     return new DivvyQueryParams(shareSObjectList);
