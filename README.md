@@ -105,7 +105,7 @@ Share SObject Fields:
 
 Wait... Aren't Field Service SObjects considered Standard?
 Yes, they are.  Do a `getDescribe().isCustom()` and you'll see `false`.
-However, Field Service, formerly Field Service Lightning and exteral to
+However, Field Service, formerly Field Service Lightning and external to
 Salesforce, SObjects used to be custom objects before Salesforce
 acquired the company.  Now that Field Service is part of Salesforce, the
  `__c` and `__Share` were dropped, but the Share
